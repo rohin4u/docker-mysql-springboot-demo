@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+
+ docker-mysql-demo:
+    image: rohin4u03/docker_mysql-docker_mysql_demo:0.0.1-SNAPSHOT
+   # build: 
+     # context: ./
+      #dockerfile: Dockerfile
+
+    mem_limit: 700m
+    ports:
+      - "9002:9001"
+    environment:
+     # SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/student_schema?autoReconnect=true&useSSL=false&enabledTLSProtocols=TLSv1.2
+     MYSQL_HOST: mysqldb
+     MYSQL_USER: root
+     MYSQL_PASSWORD: password
+    networks:
+      - mysql-docker
+    depends_on:
+      - mysql    
+      
+      
+ mysql:
+    container_name: mysqldb
+    image: mysql
+   # volumes:
+    #  - /home/appinventiv/Documents/db:/var/lib/mysql
+    restart: always
+    environment:
+       MYSQL_DATABASE: student_schema
+       MYSQL_ROOT_PASSWORD: password
+       
+    ports: 
+       - "8000:3306"
+    networks:
+       - mysql-docker         
+ 
+networks:
+    mysql-docker:        
+         
+          
